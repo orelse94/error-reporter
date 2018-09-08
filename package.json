@@ -1,0 +1,44 @@
+{
+  "name": "my-app",
+  "version": "0.0.1",
+  "description": "",
+  "homepage": "",
+  "scripts": {
+    "start": "npm run watch:serve",
+    "watch": "nodemon -e ts -w ./src -x npm run watch:serve",
+    "watch:serve": "ts-node src/processes/my-app.ts"
+  },
+  "author": {
+    "name": "orelse94",
+    "uri": "orel1994@gmail.com"
+  },
+  "keywords": [
+    ""
+  ],
+  "devDependencies": {
+    "@types/body-parser": "^1.17.0",
+    "@types/dotenv": "^4.0.3",
+    "@types/express": "^4.16.0",
+    "@types/multiparty": "0.0.31",
+    "@types/mysql": "^2.15.5",
+    "@types/node": "^10.5.4",
+    "@types/request": "^2.47.1",
+    "nodemon": "^1.18.3",
+    "ts-node": "^7.0.0",
+    "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
+    "body-parser": "^1.18.3",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "lodash": "^4.17.10",
+    "multiparty": "^4.2.1",
+    "mysql": "^2.16.0",
+    "request": "^2.88.0",
+    "ts-md5": "^1.2.4",
+    "uuid": "^3.3.2",
+    "verror": "^1.10.0"
+  },
+  "private": true
+}

@@ -1,2 +1,2 @@
-# db-logger-service
+# error-reporting service
 
