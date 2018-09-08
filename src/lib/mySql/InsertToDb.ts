@@ -77,6 +77,22 @@ export class InsertToDb {
             })
         
     }
+
+    updateRows() {
+        let removeQuery = `UPDATE ${this.table} SET processed = 1`;
+        return new Promise((resolve, reject) => {
+
+
+            this.connection.query(removeQuery, (err) => {
+                if (err) {
+                    reject()
+                } else {
+                    resolve()
+                }
+            })
+        })
+
+    }
     
     setData(table: string, fields: string[], data: string[]){
         this.table = table;
@@ -164,7 +180,9 @@ export class InsertToDb {
     }
 
     retAlerts() {
+
         return new Promise((resolve, reject) => {
+            
             console.log({query: this.alertsQuery});
             
             this.connection.query(this.alertsQuery, (err: any, rows: any, fields: any) => {
@@ -174,6 +192,7 @@ export class InsertToDb {
                 }
 
                 if (!rows ) {
+                    this.updateRows()
                     console.log('ERROR 201', err, rows, fields);
 
                     resolve({status: 201, message: 'no results'})
@@ -182,7 +201,7 @@ export class InsertToDb {
                 else {
 
                     this.results = JSON.parse(JSON.stringify(rows));
-
+                    this.updateRows()
                     resolve({status: 200, message: this.results});
                 }
 
