@@ -38,6 +38,6 @@ export class AlertErrorsService implements Service{
         .catch(err => {
             console.log(err);
         })
-    }, 2600);
+    }, Number(process.env.ERROR_CHECKUP_INTERVALS));
 }
 }
