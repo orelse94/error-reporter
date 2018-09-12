@@ -56,6 +56,7 @@ export class InsertToDb {
             
             this.connection.query(this.query, (err: any, rows: any, fields: any) => {
                 if (err) {
+                    
                     reject({status:500, message: err});
                 }
                 this.results = JSON.parse(rows);

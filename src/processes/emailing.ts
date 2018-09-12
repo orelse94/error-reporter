@@ -5,7 +5,7 @@ dotenv.config();
 
 export const sendAnEmail = (msgObj) => {
     
-    let mailHead = '<p style="color: navy;"> Hi :) it is an email from my service.. let me know what you think</p> <span style="color: navy;"><storng> btw, it is sent automatically, after querying the db</strong></span>';
+    // let mailHead = '<p style="color: navy;"> Hi :) it is an email from my service.. let me know what you think</p> <span style="color: navy;"><storng> btw, it is sent automatically, after querying the db</strong></span>';
     sgMail.setApiKey(process.env.SENDGRID_API_KEY);
     const msg = {
         "personalizations": [
@@ -17,8 +17,8 @@ export const sendAnEmail = (msgObj) => {
       from: process.env.MAILING_FROM,
       subject: 'test mail ⛔✌',
     //   subject: `Error Notified -⛔ ${msgObj.res[0].alert}`,
-      html: mailHead
-      + msgObj.html 
+      html: 
+       msgObj.html 
       + '<p>Orel</p>'
     };
 

@@ -78,15 +78,31 @@ export class InsertToDb {
         
     }
 
-    updateRows() {
-        let removeQuery = `UPDATE ${this.table} SET processed = 1`;
-        return new Promise((resolve, reject) => {
+    updateRows(ids) {
 
+
+        let removeQuery = `UPDATE ${this.table} SET processed = 1 WHERE processed = 0 AND`;
+        ids.map((id, i) => {
+            // add the where ID = ? to the query -
+            if ((ids.length -1 ) == i) {
+                
+                removeQuery += ` ID = ${id};`;
+            } else {
+                
+                removeQuery += ` ID = ${id} OR`;
+
+            }
+        })
+        
+        return new Promise((resolve, reject) => {
 
             this.connection.query(removeQuery, (err) => {
                 if (err) {
+                    console.log(err);
+
                     reject()
                 } else {
+                    
                     resolve()
                 }
             })
@@ -183,17 +199,20 @@ export class InsertToDb {
 
         return new Promise((resolve, reject) => {
             
-            console.log({query: this.alertsQuery});
+            console.log({'oreli':'lte',query: this.alertsQuery});
             
             this.connection.query(this.alertsQuery, (err: any, rows: any, fields: any) => {
                 if (err) {
+                    console.log({1:1});
                     
                     resolve({status:500, message: err});
                 }
 
-                if (!rows ) {
-                    this.updateRows()
-                    console.log('ERROR 201', err, rows, fields);
+                if (!rows || rows[0] == undefined) {
+                    console.log({2:2});
+
+                    // this.updateRows()
+                    console.log('NO DATA');
 
                     resolve({status: 201, message: 'no results'})
                 } 
@@ -201,7 +220,11 @@ export class InsertToDb {
                 else {
 
                     this.results = JSON.parse(JSON.stringify(rows));
-                    this.updateRows()
+                    console.log({3:3, msg : this.results, rows});
+                    let idsToUpdate = this.results.map((row : {ID: string}) => {
+                        return row.ID;
+                    })
+                    this.updateRows(idsToUpdate)
                     resolve({status: 200, message: this.results});
                 }
 

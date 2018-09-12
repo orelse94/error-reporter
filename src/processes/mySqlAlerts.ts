@@ -27,32 +27,36 @@ import { sendAnEmail } from "./emailing";
         // let msgTop = "<h2 style="'font-family:'Franklin Gothic Medium', 'Arial Narrow', 'Arial', 'sans-serif'; color: '#2e6c80';">Errors Reported:</h2><table style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;"><thead><tr><td><strong>time_stamp</strong></td><td><strong>alert</strong></td><td><strong>processed</strong></td></tr></thead><tbody><tr>"
         // let msgBottom = "</tbody></table><p><strong>&nbsp;</strong></p><p style="font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; color: #2e6c80;"><strong>This email was provided by alerts-service </strong><br /><strong>Enjoy!</strong></p>"
         if (response.status == 200) {
-
-            let msgContent = msgTop;
-            let trS = "<tr></br>"
-            let trE = "</tr>"
-            let tdS = "<td></br>"
-            let tdE = " |  </td>"
-    
-            let msgWrapperAfter = "" 
-            response.message.map(singleErr => {
-                msgContent += trS;
-    
-                let props = Object.keys(singleErr);
-                props.map(prop => {
-                    if (['time_stamp','alert','processed'].includes(prop)) {
-                    msgContent += tdS;                
-                    msgContent += singleErr[prop] 
-                    msgContent += tdE;  
-                }      
-    
+            if (response.message) {
+                console.log({res: response.message});
+                
+                let msgContent = msgTop;
+                let trS = "<tr></br>"
+                let trE = "</tr>"
+                let tdS = "<td></br>"
+                let tdE = " |  </td>"
+        
+                let msgWrapperAfter = "" 
+                response.message.map(singleErr => {
+                    msgContent += trS;
+        
+                    let props = Object.keys(singleErr);
+                    props.map(prop => {
+                        if (['time_stamp','alert','processed'].includes(prop)) {
+                        msgContent += tdS;                
+                        msgContent += singleErr[prop] 
+                        msgContent += tdE;  
+                    }      
+        
+                    })
+                    msgContent += trE;
                 })
-                msgContent += trE;
-            })
-            msgContent += msgBottom;
+                msgContent += msgBottom;
+        
     
-
-            sendAnEmail({res: response.message, html: msgContent})
+                sendAnEmail({res: response.message, html: msgContent})
+    
+            }
 
         } else if (response.status == 500) {
             sendAnEmail({res: response.message, html: '<p style= "font-family:"Franklin Gothic Medium"; "color": "#2e6c80";>sent from orel</p>'})
